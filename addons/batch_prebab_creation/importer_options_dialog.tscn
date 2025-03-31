@@ -1,0 +1,124 @@
+[gd_scene load_steps=2 format=3 uid="uid://hhfars1n541k"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6oxnp"]
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.169245, 0.169245, 0.169245, 1)
+
+[node name="Batch Importer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_6oxnp")
+text = "Batch Import Options"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="models_folder" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="models_folder_caption" type="Label" parent="VBoxContainer/VBoxContainer/models_folder"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Models Folder :"
+
+[node name="models_folder_value" type="Label" parent="VBoxContainer/VBoxContainer/models_folder"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "<Models Folder>"
+
+[node name="models_folder_action" type="Button" parent="VBoxContainer/VBoxContainer/models_folder"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Select"
+
+[node name="models_formats" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="models_format_caption" type="Label" parent="VBoxContainer/VBoxContainer/models_formats"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Models Formats :"
+
+[node name="gltf_option" type="CheckBox" parent="VBoxContainer/VBoxContainer/models_formats"]
+layout_mode = 2
+text = "GLTF"
+
+[node name="glb_option" type="CheckBox" parent="VBoxContainer/VBoxContainer/models_formats"]
+layout_mode = 2
+text = "GLB"
+
+[node name="obj_option" type="CheckBox" parent="VBoxContainer/VBoxContainer/models_formats"]
+layout_mode = 2
+text = "OBJ"
+
+[node name="fbx_option" type="CheckBox" parent="VBoxContainer/VBoxContainer/models_formats"]
+layout_mode = 2
+text = "FBX"
+
+[node name="prefabs_folder" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="prefabs_folder_caption" type="Label" parent="VBoxContainer/VBoxContainer/prefabs_folder"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Prefabs Folder :"
+
+[node name="prefabs_folder_value" type="Label" parent="VBoxContainer/VBoxContainer/prefabs_folder"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "<Prefabs Folder>"
+
+[node name="prefab_folder_action" type="Button" parent="VBoxContainer/VBoxContainer/prefabs_folder"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Select"
+
+[node name="status" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+horizontal_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+
+[node name="Cancel" type="Button" parent="VBoxContainer/Actions"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="Label" type="Label" parent="VBoxContainer/Actions"]
+visible = false
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Import" type="Button" parent="VBoxContainer/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Import"
