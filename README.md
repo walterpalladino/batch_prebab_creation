@@ -14,4 +14,4 @@ The plugin was tested on Godot 4.3 and 4.4.1
 ### How it works?
 Once enabled the plugin you will found a new tab:
 	
-![Screen](addons/batch_prefab_creation/image-1.jpg)
+![image-1](addons/batch_prefab_creation/image-1.jpg)
