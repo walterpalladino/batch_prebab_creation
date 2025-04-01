@@ -8,5 +8,10 @@ What I did different here? I used the native FBX support and created inherited s
 
 
 ### Godot Version Support
-The plugin was tested on Godot 4.3
+The plugin was tested on Godot 4.3 and 4.4.1
 
+
+### How it works?
+Once enabled the plugin you will found a new tab:
+	
+![](./addons/batch_import_creation/image-1.jpg)

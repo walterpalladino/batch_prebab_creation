@@ -1,20 +1,30 @@
 @tool
 extends EditorPlugin
 
+const BatchPrefabImport = preload("./batch_prefab_import.gd")
+
+
 var import_options_dialog : Control
 
 var models_dir_dialog
 var prefabs_dir_dialog
+var overwrite_material_dialog
 
 
 var models_dir : String
 var prefabs_dir : String
+
+var overwrite_material : String
 
 var model_extensions : Array[String] = ["fbx", "gltf"]
 var prefab_extension : String = "tscn"
 
 var models_dir_value : Label
 var prefabs_dir_value : Label
+
+var overwrite_existing_prefabs : bool
+var overwrite_existing_prefabs_value : CheckBox
+var overwrite_material_value : Label
 
 var gltf_option_value : CheckBox
 var glb_option_value : CheckBox
@@ -23,7 +33,6 @@ var fbx_option_value : CheckBox
 
 var status : Label
 
-const BatchPrefabImport = preload("./batch_prefab_import.gd")
 
 
 func _enter_tree() -> void:
@@ -42,12 +51,21 @@ func _enter_tree() -> void:
 	prefabs_dir_dialog.file_mode = FileDialog.FILE_MODE_OPEN_DIR
 	prefabs_dir_dialog.access = FileDialog.ACCESS_RESOURCES
 	prefabs_dir_dialog.dir_selected.connect(on_PrefabsDirDialog_file_selected)
-	models_dir_dialog.title = "Choose Prefabs (Destination) folder..."
+	prefabs_dir_dialog.title = "Choose Prefabs (Destination) folder..."
 
+	overwrite_material_dialog = FileDialog.new()
+	overwrite_material_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	overwrite_material_dialog.access = FileDialog.ACCESS_RESOURCES
+	overwrite_material_dialog.file_selected.connect(on_OverwriteMaterialDialog_file_selected)
+	overwrite_material_dialog.canceled.connect(on_OverwriteMaterialDialog_file_canceled)
+	overwrite_material_dialog.title = "Choose Overwrite Material..."
+	overwrite_material_dialog.add_filter("*.tres", "Material")
+	
 	var viewport = get_editor_interface().get_base_control()
 	
 	viewport.add_child(models_dir_dialog)
 	viewport.add_child(prefabs_dir_dialog)
+	viewport.add_child(overwrite_material_dialog)
 	
 	import_options_dialog.get_node("VBoxContainer/Actions/Import").connect("pressed", on_import_pressed)
 	import_options_dialog.get_node("VBoxContainer/VBoxContainer/models_folder/models_folder_action").connect("pressed", on_models_folder_action_pressed)
@@ -60,7 +78,11 @@ func _enter_tree() -> void:
 	glb_option_value = import_options_dialog.get_node("VBoxContainer/VBoxContainer/models_formats/glb_option")
 	obj_option_value = import_options_dialog.get_node("VBoxContainer/VBoxContainer/models_formats/obj_option")
 	fbx_option_value = import_options_dialog.get_node("VBoxContainer/VBoxContainer/models_formats/fbx_option")
+
+	import_options_dialog.get_node("VBoxContainer/VBoxContainer/overwrite_material/overwrite_material_action").connect("pressed", on_overwrite_material_action_pressed)
+	overwrite_material_value = import_options_dialog.get_node("VBoxContainer/VBoxContainer/overwrite_material/overwrite_material_value")
 	
+	overwrite_existing_prefabs_value = import_options_dialog.get_node("VBoxContainer/VBoxContainer/overwrite_existing_prefabs/overwrite_existing_prefabs_option")
 	status = import_options_dialog.get_node("VBoxContainer/status")
 	
 
@@ -85,6 +107,17 @@ func on_PrefabsDirDialog_file_selected(dir : String):
 	prefabs_dir = dir
 	prefabs_dir_value.text = dir
 
+
+func on_OverwriteMaterialDialog_file_selected(file : String):
+	print(file)
+	overwrite_material = file
+	overwrite_material_value.text = file
+	
+	
+func on_OverwriteMaterialDialog_file_canceled():
+	overwrite_material = ''
+	overwrite_material_value.text = '<Overwrite Material>'
+
 	
 func on_import_pressed():
 
@@ -95,11 +128,13 @@ func on_import_pressed():
 
 		gather_models_format_options()
 		
+		overwrite_existing_prefabs = overwrite_existing_prefabs_value.button_pressed
+		
 		if (model_extensions.size() == 0):
 			status.set("theme_override_colors/font_color", Color.RED)
 			status.text = "Should select at least one model format"
 		else:	
-			var importer = BatchPrefabImport.new(models_dir, prefabs_dir, model_extensions, prefab_extension)
+			var importer = BatchPrefabImport.new(models_dir, prefabs_dir, model_extensions, prefab_extension, overwrite_material, overwrite_existing_prefabs)
 			importer.batch_import()	
 			
 			status.set("theme_override_colors/font_color", Color.GREEN)
@@ -127,4 +162,7 @@ func on_models_folder_action_pressed():
 func on_prefabs_folder_action_pressed():
 	prefabs_dir_dialog.popup_centered(Vector2(600,600))
 		
+
+func on_overwrite_material_action_pressed():
+	overwrite_material_dialog.popup_centered(Vector2(600,600))
 	
