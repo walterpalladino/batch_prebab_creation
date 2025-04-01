@@ -14,4 +14,4 @@ The plugin was tested on Godot 4.3 and 4.4.1
 ### How it works?
 Once enabled the plugin you will found a new tab:
 	
-![](addons/batch_import_creation/image-1.jpg)
+![](addons/batch_prefab_creation/image-1.jpg)
